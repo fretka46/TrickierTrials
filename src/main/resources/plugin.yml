@@ -6,3 +6,8 @@ api-version: '1.21'
 commands:
   trickiertrials:
     description: Main command for Trickier Trials
+    permission: trickiertrials.admin
+permissions:
+  trickiertrials.admin:
+    description: /trickiertrials reload
+    default: op

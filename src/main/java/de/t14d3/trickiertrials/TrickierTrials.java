@@ -32,7 +32,7 @@ public final class TrickierTrials extends JavaPlugin implements CommandExecutor 
 
         // Register event listeners
         this.getServer().getPluginManager().registerEvents(new TrialSpawnerListener(this, strengthenTrialMobs, glowingEffect, secret, secretName), this);
-        this.getServer().getPluginManager().registerEvents(new TrialChamberProtector(this, getTrialChamberMaterials(), decayPlacedBlocks, regenerateBrokenBlocks), this);
+        this.getServer().getPluginManager().registerEvents(new TrialChamberProtector(this), this);
         this.getServer().getPluginManager().registerEvents(new TrialDeathListener(), this);
         this.getServer().getPluginManager().registerEvents(new TrialVaultRefresher(this, trialVaultResetTime), this);
 
@@ -86,9 +86,21 @@ public final class TrickierTrials extends JavaPlugin implements CommandExecutor 
         return trialChamberMaterials;
     }
 
+    public boolean isDecayPlacedBlocks() {
+        return decayPlacedBlocks;
+    }
+
+    public boolean isRegenerateBrokenBlocks() {
+        return regenerateBrokenBlocks;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (command.getName().equalsIgnoreCase("trickiertrials")) {
+            if (!sender.hasPermission("trickiertrials.admin")) {
+                sender.sendMessage("Nemáš oprávnění.");
+                return true;
+            }
             if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
                 // Reload the configuration
                 reloadConfig();
